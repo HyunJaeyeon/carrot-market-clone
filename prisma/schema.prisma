@@ -7,8 +7,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql" //Set the provider of the datasource block
-  url      = env("DATABASE_URL")
+  provider     = "mysql" //Set the provider of the datasource block
+  url          = env("DATABASE_URL")
+  relationMode = "prisma" //check relation by prisma
 }
 
 //DB에 사용할 모델 만들기
