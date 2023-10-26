@@ -1,4 +1,5 @@
-//api 라우트 생성
+//api 라우트 생성 (server)
+//http://localhost:3000/api/client-test 에서 json응답 확인 가능
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/client";
 

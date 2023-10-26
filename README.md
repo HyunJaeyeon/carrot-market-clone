@@ -7,5 +7,6 @@ Serverless Carrot Market Clone using NextJS, Tailwind, Prisma, PlanetScale and C
 ### TODO
 
 - [x] download UI files
-- [ ] Prisma practice
+- [ ] _Prisma_ practice
 - [ ] Build application with real data
+- [ ] make form with _react-hook-form_
