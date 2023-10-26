@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// : 데이터베이스에 대한 모든 설명을 담은 파일
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" //Set the provider of the datasource block
+  url      = env("DATABASE_URL")
+}
+
+//DB에 사용할 모델 만들기
+model User {
+  id        Int      @id @default(autoincrement())
+  phone     Int?     @unique //?: not required -> optional
+  email     String?  @unique
+  name      String
+  avatar    String? //프로필 사진 url
+  createdAt DateTime @default(now()) //계정 생성 시점
+  updatedAt DateTime @updatedAt //마지막 업데이트 시점
+}
