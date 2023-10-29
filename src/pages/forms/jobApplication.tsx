@@ -7,7 +7,7 @@ import Select from "react-select"; //react-select 사용해보기
 //checkPurpose: required -> radio ✅
 //salary -> select(dropdown) ✅
 //introduction: required ✅
-//dreams: required, minLength: 10chars
+//dreams: required, minLength: 10chars ✅
 //email: required, validate: "@naver.com"
 //submit✅  -> print valid data
 //--------------------------------------
@@ -199,6 +199,26 @@ export default function JobForms() {
             placeholder="Talk about yourself"
           />
           {errors.introduction?.message}
+        </div>
+
+        {/* dreams: required, minchars:10 */}
+        <div>
+          <div>
+            {/* title */}
+            <h1 className="py-1 font-semibold">Tell us what your dreams are</h1>
+          </div>
+          <input
+            {...register("dreams", {
+              required: "Please tell us what your dreams are",
+              minLength: {
+                value: 10,
+                message: "Please write more than 10 characters",
+              },
+            })}
+            type="text"
+            placeholder="what's your dream?"
+          />
+          {errors.dreams?.message}
         </div>
 
         {/* submit */}
