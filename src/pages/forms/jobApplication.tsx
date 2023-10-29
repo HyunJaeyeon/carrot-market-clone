@@ -3,12 +3,12 @@ import { FieldErrors, useForm, Controller } from "react-hook-form";
 import Select from "react-select"; //react-select 사용해보기
 
 //--구현사항------------------------------
-//checkDepartment: required -> radio ✅
-//checkPurpose: required -> radio ✅
-//salary -> select(dropdown) ✅
-//introduction: required ✅
-//dreams: required, minLength: 10chars ✅
-//email: required, validate: "@naver.com"
+//✅ checkDepartment: required -> radio
+//✅ checkPurpose: required -> radio
+//✅ salary -> select(dropdown)
+//✅ introduction: required
+//✅ dreams: required, minLength: 10chars
+//✅email: required, validate: "@naver.com"
 //submit✅  -> print valid data
 //--------------------------------------
 
@@ -219,6 +219,26 @@ export default function JobForms() {
             placeholder="what's your dream?"
           />
           {errors.dreams?.message}
+        </div>
+        {/* email:required, validate: @naver.com */}
+        <div>
+          <div>
+            {/* title */}
+            <h1 className="py-1 font-semibold">Email</h1>
+          </div>
+          <input
+            {...register("email", {
+              required: "Please write down your email",
+              validate: {
+                //@naver이 value에 있는지 확인
+                notNaver: (value) =>
+                  value.includes("@naver.com") || "Only @naver emails allowed",
+              },
+            })}
+            type="email"
+            placeholder="Only @naver.com is allowed"
+          />
+          {errors.email?.message}
         </div>
 
         {/* submit */}
