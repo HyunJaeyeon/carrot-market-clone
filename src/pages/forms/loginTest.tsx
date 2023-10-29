@@ -1,6 +1,7 @@
 //make login form with react-hook-form
 import { FieldErrors, useForm } from "react-hook-form";
 import { useState } from "react";
+import { NextPage } from "next";
 
 //--구현조건------------------------------
 //name: required
