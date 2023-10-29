@@ -2,13 +2,13 @@
 import { FieldErrors, useForm } from "react-hook-form";
 
 //--구현사항------------------------------
-//checkDepartment: required -> radio
-//checkPurpose: required -> radio
+//checkDepartment: required -> radio ✅
+//checkPurpose: required -> radio ✅
 //salary -> select(dropdown)
 //introduction: required
 //dreams: required, minLength: 10chars
 //email: required, validate: "@naver.com"
-//submit -> print valid data
+//submit✅  -> print valid data
 //--------------------------------------
 
 interface IForm {
@@ -100,6 +100,59 @@ export default function JobForms() {
             {errors.checkDepartment?.message}
           </div>
         </div>
+        {/* checkPurpose: required*/}
+        <div>
+          {/* title */}
+          <h1 className="py-1 font-semibold">
+            Why do you want to join this company?
+          </h1>
+          {/* labels */}
+          <div className="grid gap-2">
+            <label>
+              <input
+                {...register("checkPurpose", {
+                  required: "*required",
+                  value: "sales",
+                })}
+                type="radio"
+                value="money"
+              />
+              I want money!
+            </label>
+            <label>
+              <input
+                {...register("checkPurpose", {
+                  required: "*required",
+                })}
+                type="radio"
+                value="love"
+              />
+              I love this company
+            </label>
+            <label>
+              <input
+                {...register("checkPurpose", {
+                  required: "*required",
+                })}
+                type="radio"
+                value="learn"
+              />
+              I want to learn
+            </label>
+            <label>
+              <input
+                {...register("checkPurpose", {
+                  required: "*required",
+                })}
+                type="radio"
+                value="unknown"
+              />
+              {`I don't know why`}
+            </label>
+            {errors.checkDepartment?.message}
+          </div>
+        </div>
+
         {/* submit */}
         <div>
           <input type="submit" value="Give me this Job" />
