@@ -6,7 +6,7 @@ import Select from "react-select"; //react-select 사용해보기
 //checkDepartment: required -> radio ✅
 //checkPurpose: required -> radio ✅
 //salary -> select(dropdown) ✅
-//introduction: required
+//introduction: required ✅
 //dreams: required, minLength: 10chars
 //email: required, validate: "@naver.com"
 //submit✅  -> print valid data
@@ -108,6 +108,7 @@ export default function JobForms() {
             {errors.checkDepartment?.message}
           </div>
         </div>
+
         {/* checkPurpose: required*/}
         <div>
           {/* title */}
@@ -183,6 +184,23 @@ export default function JobForms() {
             )}
           />
         </div>
+
+        {/* introduction: required */}
+        <div>
+          <div>
+            {/* title */}
+            <h1 className="py-1 font-semibold">Introduce yourself</h1>
+          </div>
+          <input
+            {...register("introduction", {
+              required: "Please write down your introduction",
+            })}
+            type="text"
+            placeholder="Talk about yourself"
+          />
+          {errors.introduction?.message}
+        </div>
+
         {/* submit */}
         <div>
           <input type="submit" value="Give me this Job" />
