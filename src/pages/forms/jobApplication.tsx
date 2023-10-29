@@ -1,10 +1,11 @@
 //make login form with react-hook-form
-import { FieldErrors, useForm } from "react-hook-form";
+import { FieldErrors, useForm, Controller } from "react-hook-form";
+import Select from "react-select"; //react-select 사용해보기
 
 //--구현사항------------------------------
 //checkDepartment: required -> radio ✅
 //checkPurpose: required -> radio ✅
-//salary -> select(dropdown)
+//salary -> select(dropdown) ✅
 //introduction: required
 //dreams: required, minLength: 10chars
 //email: required, validate: "@naver.com"
@@ -19,6 +20,13 @@ interface IForm {
   dreams: string;
   email: string;
 }
+
+const salaryOptions = [
+  { value: "$50K", label: "$50K" },
+  { value: "$100K", label: "$100K" },
+  { value: "$150K", label: "$150K" },
+  { value: "$200K", label: "$200K" },
+];
 
 export default function JobForms() {
   //useForm에서 가져오기
@@ -153,6 +161,28 @@ export default function JobForms() {
           </div>
         </div>
 
+        {/* salary: required */}
+        <div>
+          {/* title */}
+          <h1 className="py-1 font-semibold">Salary</h1>
+          <Controller
+            control={control}
+            name="selectSalary"
+            rules={{ required: "*required" }}
+            //속성 불러와서 적용
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Select
+                options={salaryOptions} //위에서 만든 배열을 select로 넣기
+                ref={ref} // react-select 컴포넌트를 통해 선택된 값이랑 폼 선택값이 동일하도록 설정
+                value={salaryOptions.find((option) => option.value === value)}
+                onChange={(option) => {
+                  onChange(option?.value);
+                  console.log(option);
+                }}
+              />
+            )}
+          />
+        </div>
         {/* submit */}
         <div>
           <input type="submit" value="Give me this Job" />
