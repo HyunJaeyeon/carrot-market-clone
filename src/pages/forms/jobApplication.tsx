@@ -1,15 +1,17 @@
 //make login form with react-hook-form
 import { FieldErrors, useForm, Controller } from "react-hook-form";
 import Select from "react-select"; //react-select 사용해보기
+import { useState } from "react";
 
 //--구현사항------------------------------
 //✅ checkDepartment: required -> radio
 //✅ checkPurpose: required -> radio
-//✅ salary -> select(dropdown)
+//✅ salary -> react-select(dropdown)
 //✅ introduction: required
 //✅ dreams: required, minLength: 10chars
-//✅email: required, validate: "@naver.com"
-//submit✅  -> print valid data
+//✅ email: required, validate: "@naver.com"
+//✅ submit  -> print valid data
+//css 꾸미기 -> tailwind
 //--------------------------------------
 
 interface IForm {
@@ -38,13 +40,20 @@ export default function JobForms() {
     formState: { errors },
   } = useForm<IForm>({ mode: "all" });
 
+  //valid data값 관리
+  const [isValidData, setIsValidData] = useState<string>();
+
   //data 받아오기 성공
   const onValid = (data: IForm) => {
     console.log(data);
+    //조건에 맞게 set 해줌
+    setIsValidData(JSON.stringify(data));
   };
   //data 받아오기 실패, Error
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
+    //invalid일 때 빈값 넣기
+    setIsValidData("");
   };
 
   return (
@@ -244,6 +253,8 @@ export default function JobForms() {
         {/* submit */}
         <div>
           <input type="submit" value="Give me this Job" />
+          {/* valid일 때 data값이 나타나게 됨 */}
+          <div>{isValidData}</div>
         </div>
       </form>
     </>
