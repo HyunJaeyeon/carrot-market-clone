@@ -5,12 +5,13 @@ import Button from "../components/button";
 import Input from "../components/input";
 import { cls } from "../libs/utils";
 
-interface EnterForm {
+interface AuthForm {
   email?: string;
   phone?: string;
 }
 const Enter: NextPage = () => {
-  const { register, watch, reset, handleSubmit } = useForm<EnterForm>();
+  const { register, reset, handleSubmit } = useForm<AuthForm>();
+  const [submitting, setSubmitting] = useState(false);
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
     reset(); //method 바뀔 때마다 form reset
@@ -20,8 +21,18 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const onValid = (data: AuthForm) => {
+    setSubmitting(true);
+    fetch("api/users/auth", {
+      method: "POST",
+      body: JSON.stringify(data),
+      //body의 데이터 유형은 반드시 Content-Type 헤더와 일치해야 함
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      setSubmitting(false);
+    });
   };
   // console.log(watch());
   return (
@@ -78,9 +89,11 @@ const Enter: NextPage = () => {
               // required
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={submitting ? "loading" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button text={"Get one-time password"} />
+            <Button text={submitting ? "loading" : "Get one-time password"} />
           ) : null}
         </form>
 
