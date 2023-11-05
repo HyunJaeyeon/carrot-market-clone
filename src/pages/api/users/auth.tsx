@@ -3,9 +3,27 @@
 
 import { NextApiHandler } from "next";
 import withHandler from "@/libs/server/withHandler";
+import client from "@/libs/server/client";
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.body);
+  const { phone, email } = req.body;
+  const payload = phone ? { phone: +phone } : { email };
+
+  const user = await client.user.upsert({
+    //what we want to update
+    where: {
+      ...payload, //conditional statement
+    },
+    //not exist, create new user
+    create: {
+      name: "Anonymous",
+      ...payload,
+    },
+    //if already exists, update
+    update: {},
+  });
+  console.log(user);
+
   res.status(200).end();
 };
 
