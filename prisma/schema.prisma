@@ -15,10 +15,22 @@ datasource db {
 //DB에 사용할 모델 만들기
 model User {
   id        Int      @id @default(autoincrement())
-  phone     Int?     @unique //?: not required -> optional
+  phone     String?  @unique //?: not required -> optional
   email     String?  @unique
   name      String
   avatar    String? //프로필 사진 url
   createdAt DateTime @default(now()) //계정 생성 시점
   updatedAt DateTime @updatedAt //마지막 업데이트 시점
+  tokens    Token[]
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+  payload   String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

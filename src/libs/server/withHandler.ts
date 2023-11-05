@@ -3,7 +3,7 @@
 import { NextApiHandler } from "next";
 
 export default function withHandler(
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "DELETE",
   handler: NextApiHandler,
 ): NextApiHandler {
   return async function (req, res) {
@@ -14,7 +14,7 @@ export default function withHandler(
       await handler(req, res);
     } catch (error) {
       console.log(error);
-      return res.status(405).json({ error });
+      return res.status(500).json({ error });
     }
   };
 }
