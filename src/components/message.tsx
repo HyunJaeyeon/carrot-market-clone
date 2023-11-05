@@ -1,6 +1,6 @@
 //채팅 말풍선 컴포넌트
 
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 
 interface MessageProps {
   message: string;
