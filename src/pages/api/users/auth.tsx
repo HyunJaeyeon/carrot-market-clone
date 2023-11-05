@@ -1,23 +1,12 @@
 //api 라우트 생성 (server)
 //http://localhost:3000/api/auth 에서 json응답 확인 가능
 
-import { NextApiRequest, NextApiResponse } from "next";
-// import { NextResponse } from "next/server";
+import { NextApiHandler } from "next";
+import withHandler from "@/libs/server/withHandler";
 
-//connection handler 함수
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method !== "POST") {
-    res.status(405).end();
-  }
+const handler: NextApiHandler = async (req, res) => {
   console.log(req.body);
-  res.json({ OK: true });
   res.status(200).end();
-}
-// export const POST = async (req: Request) => {
-//   const res = await req.json();
-//   console.log(res);
-//   return NextResponse.json({ res });
-// };
+};
+
+export default withHandler("POST", handler);

@@ -15,7 +15,7 @@ export default function useMutation(url: string): UseMutationResult {
     error: undefined,
   });
 
-  const handleSetState = (key: string, value: any) => {
+  const handleSetState = (key: "loading" | "data" | "error", value: any) => {
     setState((prev) => {
       return { ...prev, [key]: value };
     });
