@@ -3,15 +3,16 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../components/button";
 import Input from "../components/input";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
+import useMutation from "@/libs/client/useMutation";
 
 interface AuthForm {
   email?: string;
   phone?: string;
 }
-const Enter: NextPage = () => {
+const Auth: NextPage = () => {
   const { register, reset, handleSubmit } = useForm<AuthForm>();
-  const [submitting, setSubmitting] = useState(false);
+  const [auth, { loading, data, error }] = useMutation("/api/users/auth");
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
     reset(); //method 바뀔 때마다 form reset
@@ -21,20 +22,10 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: AuthForm) => {
-    setSubmitting(true);
-    fetch("api/users/auth", {
-      method: "POST",
-      body: JSON.stringify(data),
-      //body의 데이터 유형은 반드시 Content-Type 헤더와 일치해야 함
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(() => {
-      setSubmitting(false);
-    });
+  const onValid = (validData: AuthForm) => {
+    auth(validData);
   };
-  // console.log(watch());
+  console.log(loading, data, error);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
@@ -90,10 +81,10 @@ const Enter: NextPage = () => {
             />
           ) : null}
           {method === "email" ? (
-            <Button text={submitting ? "loading" : "Get login link"} />
+            <Button text={loading ? "loading" : "Get login link"} />
           ) : null}
           {method === "phone" ? (
-            <Button text={submitting ? "loading" : "Get one-time password"} />
+            <Button text={loading ? "loading" : "Get one-time password"} />
           ) : null}
         </form>
 
@@ -137,4 +128,4 @@ const Enter: NextPage = () => {
     </div>
   );
 };
-export default Enter;
+export default Auth;

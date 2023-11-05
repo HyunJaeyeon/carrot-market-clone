@@ -10,12 +10,12 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
-    res.status(405).end;
+    res.status(405).end();
   }
   console.log(req.body);
+  res.json({ OK: true });
   res.status(200).end();
 }
-
 // export const POST = async (req: Request) => {
 //   const res = await req.json();
 //   console.log(res);
