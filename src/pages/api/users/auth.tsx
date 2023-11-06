@@ -2,15 +2,18 @@
 //http://localhost:3000/api/auth 에서 json응답 확인 가능
 
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import withHandler from "@/libs/server/withHandler";
+import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler: NextApiHandler<ResponseType> = async (req, res) => {
   const { phone, email } = req.body;
   console.log(req.body);
+
   const user = phone ? { phone } : email ? { email } : null;
   if (!user) return res.status(400).json({ ok: false });
+
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
+
   const token = await client.token.create({
     data: {
       payload,
@@ -33,6 +36,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return res.json({
     ok: true,
   });
-}
+};
 
 export default withHandler("POST", handler);
