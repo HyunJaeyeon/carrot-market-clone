@@ -1,19 +1,39 @@
-//api 라우트 생성 (server)
-//http://localhost:3000/api/auth 에서 json응답 확인 가능
-
 import { NextApiHandler } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
+import { withIronSessionApiRoute } from "iron-session/next";
 import client from "@/libs/server/client";
 
-const handler: NextApiHandler<ResponseType> = async (req, res) => {
-  const { token } = req.body;
-  console.log(req.body);
-  console.log(token);
-  res.status(200).end();
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: {
+      id: number;
+    };
+  }
+}
 
-  return res.json({
-    ok: true,
+const handler: NextApiHandler<ResponseType> = async (req, res) => {
+  console.log(req.session);
+  const { token } = req.body;
+
+  const exists = await client.token.findUnique({
+    //토큰 존재하면 user, 없으면 null 반환
+    where: {
+      payload: token,
+    },
   });
+  if (!exists) return res.status(404).end();
+  req.session.user = {
+    id: exists.userId,
+  };
+
+  //세션 데이터 암호화하고 쿠키 설정
+  await req.session.save();
+  console.log(exists);
+  res.status(200).end();
 };
 
-export default withHandler("POST", handler);
+//handler을 withironsession..이 함수로 감싸줬기 때문에 req.session을 확인할 수 있음
+export default withIronSessionApiRoute(withHandler("POST", handler), {
+  cookieName: "carrot_cookie",
+  password: "12353323252341245435123323asdfafasasdfsfafasdfasdsdfasdadfad",
+});
