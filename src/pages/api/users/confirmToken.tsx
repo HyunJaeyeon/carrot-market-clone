@@ -7,16 +7,7 @@ import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
 import { withApiSession } from "@/libs/server/withSession";
 
-declare module "iron-session" {
-  interface IronSessionData {
-    user?: {
-      id: number;
-    };
-  }
-}
-
 const handler: NextApiHandler<ResponseType> = async (req, res) => {
-  console.log(req.session);
   const { token } = req.body;
 
   const foundToken = await client.token.findUnique({
@@ -43,4 +34,6 @@ const handler: NextApiHandler<ResponseType> = async (req, res) => {
 };
 
 //handler을 withironsession..이 함수로 감싸줬기 때문에 req.session을 확인할 수 있음
-export default withApiSession(withHandler("POST", handler));
+export default withApiSession(
+  withHandler({ method: "POST", handler, isPrivate: false }),
+);

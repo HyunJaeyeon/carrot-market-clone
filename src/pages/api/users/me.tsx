@@ -16,5 +16,5 @@ const handler: NextApiHandler<ResponseType> = async (req, res) => {
   });
 };
 
-export default withApiSession(withHandler("GET", handler));
+export default withApiSession(withHandler({ method: "GET", handler }));
 //req.session.user, save, destroy 사용 가능

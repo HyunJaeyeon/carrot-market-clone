@@ -38,4 +38,4 @@ const handler: NextApiHandler<ResponseType> = async (req, res) => {
   });
 };
 
-export default withHandler("POST", handler);
+export default withHandler({ method: "POST", handler, isPrivate: false });
